@@ -13,11 +13,10 @@ import java.math.BigDecimal;
 @Service
 @AllArgsConstructor
 public class KafkaMessagingService {
-    private static final String topicCreateOrder = "${topic.send-order}";
-    private static final String kafkaConsumerGroupId = "${spring.kafka.consumer.group-id}";
 
-    @KafkaListener(topics = topicCreateOrder, groupId = kafkaConsumerGroupId, properties = {"spring.json.value.default.type=com.consoleservice.model.OrderEvent"})
+    @KafkaListener(topics = "${topic.send-order}", groupId = "${spring.kafka.consumer.group-id}", properties = {"spring.json.value.default.type=com.consoleservice.model.OrderEvent"})
     public Mono<OrderEvent> printOrder(OrderEvent orderEvent) {
+        System.out.println("The product: " + orderEvent.getProductName() + " was ordered in quantity: " + orderEvent.getQuantity() + " and at a price:" + orderEvent.getPrice());
         return Mono.just(orderEvent)
                 .doOnNext(event -> {
                     log.info("The product: {} was ordered in quantity: {} and at a price: {}", event.getProductName(), event.getQuantity(), event.getPrice());

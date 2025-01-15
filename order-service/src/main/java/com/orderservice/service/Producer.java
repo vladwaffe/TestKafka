@@ -20,4 +20,5 @@ public class Producer {
         log.info("Send order from producer {}", order);
         return order;
     }
+
 }
